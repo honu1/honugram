@@ -1,4 +1,4 @@
-from rest_framework.view import APIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from . import models, serializers
 
@@ -14,3 +14,5 @@ class ListAllImages(APIView):
         serializer = serializers.ImageSerializer(all_images, many=True)
 
         return Response(data=serializer.data)
+
+list_all_view = ListAllImages.as_view()
