@@ -15,4 +15,29 @@ class ListAllImages(APIView):
 
         return Response(data=serializer.data)
 
-list_all_view = ListAllImages.as_view()
+list_all_images_view = ListAllImages.as_view()
+
+class ListAllComments(APIView):
+
+    def get(self, request, format=None):
+
+        all_comments =  models.Comment.objects.all()
+
+        serializer = serializers.CommentSerializer(all_comments, many=True)
+
+        return Response(data=serializer.data)
+
+list_all_comments_view = ListAllComments.as_view()
+
+
+class ListAllLikes(APIView):
+
+    def get(self, request, format=None):
+
+        all_likes =  models.Like.objects.all()
+
+        serializer = serializers.LikeSerializer(all_likes, many=True)
+
+        return Response(data=serializer.data)
+
+list_all_likes_view = ListAllLikes.as_view()
