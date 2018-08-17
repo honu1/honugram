@@ -9,6 +9,9 @@ class ListAllImages(APIView):
 
     def get(self, request, format=None):
 
+        print(request.scheme)
+        print(request.body)
+
         all_images =  models.Image.objects.all()
 
         serializer = serializers.ImageSerializer(all_images, many=True)
@@ -35,6 +38,8 @@ class ListAllLikes(APIView):
     def get(self, request, format=None):
 
         all_likes =  models.Like.objects.all()
+
+        print(request.user.website)
 
         serializer = serializers.LikeSerializer(all_likes, many=True)
 
