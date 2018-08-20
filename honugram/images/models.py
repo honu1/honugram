@@ -19,7 +19,7 @@ class Image(TimeStampModel):
     file = models.ImageField()
     location = models.CharField(max_length = 140)
     caption = models.TextField()
-    creator = models.ForeignKey(user_model.User, on_delete=models.PROTECT, null=True)
+    creator = models.ForeignKey(user_model.User, on_delete=models.PROTECT, null=True, related_name='images')
 
     # image_set  = (LOOK IN ALL THE COMMENTS FOR THE ONEWS THAT HAVE 'IMAGE' = 1)
 
