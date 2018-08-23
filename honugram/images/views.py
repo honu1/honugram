@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from . import models, serializers
@@ -77,7 +78,61 @@ class Feed(APIView):
     class Meta():
         ordering = ['-created_at']
 
-def get_key(image):
-    return image.created_at
+# this function changed ramda experssion ( ex> 70 lines)
+# def get_key(image):
+#     return image.created_at
 
-feed_view = Feed.as_view()    
+feed_view = Feed.as_view()
+
+class LikeImage(APIView):
+    def get(self, request, image_id, format=None):
+        
+        user = request.user
+
+        try:
+            found_image = models.Image.objects.get(id=image_id)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)  
+
+        try:
+            preexisting_like = models.Like.objects.get(
+                creator=user,
+                image=found_image,
+            )
+
+            preexisting_like.delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except models.Like.DoesNotExist:
+
+            new_like = models.Like.objects.create(
+                creator=user,
+                image=found_image,
+            )
+
+            new_like.save()
+            
+            return Response(status=status.HTTP_201_CREATED)
+
+like_image_view = LikeImage.as_view()
+
+class CommentOnImage(APIView):
+
+    def post(self, request, image_id, format=None):
+
+        user = request.user
+
+        print(request.data)
+
+        serializer = serializers.CommentSerializer(data=request.data)
+
+        if serializer.is_valid() :
+            print('valid serializer')
+            serializer.save(creator=user)
+
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+comment_on_image_view = CommentOnImage.as_view()
