@@ -3,6 +3,18 @@ from . import models
 from honugram.users import models as user_models
 
 # class name은 아무거나 해도 됨 Meta의 model이 중요함.
+
+class UserProfileImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Image
+        fields = (
+            'id',
+            'file',
+            'like_count',
+            'comment_count',
+        )
+
 class FeedUserSerializer(serializers.ModelSerializer):
     
     class Meta:
