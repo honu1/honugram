@@ -4,7 +4,7 @@ from honugram.users import models as user_models
 
 # class name은 아무거나 해도 됨 Meta의 model이 중요함.
 
-class UserProfileImageSerializer(serializers.ModelSerializer):
+class CountImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Image

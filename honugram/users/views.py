@@ -7,7 +7,7 @@ class ExploreUser(APIView):
     def get(self, request, format=None):
         last_five = models.User.objects.all().order_by('-date_joined')[:5]
 
-        serilizer = serializers.ExploreUserSerializer(last_five, many=True)
+        serilizer = serializers.ListUserSerializer(last_five, many=True)
 
         return Response(data=serilizer.data, status=status.HTTP_200_OK)
 
@@ -42,12 +42,54 @@ class UnFollowUser(APIView):
 
 class UserProfile(APIView):
     def get(self, request, username, format=None):
-
         try:
-            found_user  = models.User.objects.get(username=username)
+            found_user = models.User.objects.get(username=username)
         except models.user.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = serializers.UserProfileSerializer(found_user)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class UserFollowers(APIView):
+    def get(self, request, username, format=None):
+        try:
+            found_user = models.User.objects.get(username=username)
+        except models.user.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        user_followers = found_user.followers.all()
+        serializer = serializers.ListUserSerializer(user_followers, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+class UserFollowing(APIView):
+    def get(self, request, username, format=None):
+        try:
+            found_user = models.User.objects.get(username=username)
+        except models.user.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        user_following = found_user.following.all()
+        serializer = serializers.ListUserSerializer(user_following, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+class Search(APIView):
+    def get(self, request, format=None):
+             
+        username = request.query_params.get('username', None)
+        
+        if username is not None:
+            print("this is user search api" + username)
+
+            users = models.User.objects.filter(username__istartswith=username)
+
+            serializer = serializers.ListUserSerializer(users, many=True)
+
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        

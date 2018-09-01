@@ -10,6 +10,7 @@ from .views import (
     unlike_image_view,
     comment_on_image_view,
     comment_view,
+    search_view,
 )
 
 app_name = "images"
@@ -19,6 +20,7 @@ urlpatterns = [
     path("<int:image_id>/unlikes/", view=unlike_image_view, name="unlike_image"),
     path("<int:image_id>/comments/", view=comment_on_image_view, name="comment_image"),
     path("comments/<int:comment_id>/", view=comment_view, name="comment"),
+    path("search/", view=search_view, name="search"),
     # path("all", view=list_all_images_view, name="all_images"),
     # path("comments", view=list_all_comments_view, name="all_comments"),
     # path("likes", view=list_all_likes_view, name="all_likes"),

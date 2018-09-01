@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 from honugram.users import models as user_model
 
 # @python_2_unicode_competible - this decoration is only python2.
@@ -18,6 +19,7 @@ class Image(TimeStampModel):
     location = models.CharField(max_length = 140)
     caption = models.TextField()
     creator = models.ForeignKey(user_model.User, on_delete=models.PROTECT, null=True, related_name='images')
+    tags = TaggableManager()
 
     @property
     def like_count(self):

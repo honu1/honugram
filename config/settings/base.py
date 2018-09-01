@@ -68,6 +68,7 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework', # REST framework
+    'taggit', #taggit for the photos
 ]
 LOCAL_APPS = [
     'honugram.users.apps.UsersAppConfig',
@@ -239,3 +240,4 @@ SOCIALACCOUNT_ADAPTER = 'honugram.users.adapters.SocialAccountAdapter'
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+TAGGIT_CASE_INSENSITIVE = True
