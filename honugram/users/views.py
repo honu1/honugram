@@ -2,8 +2,10 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from . import models, serializers
+from honugram.notifications import views as notifications_views
 
 class ExploreUser(APIView):
+
     def get(self, request, format=None):
         last_five = models.User.objects.all().order_by('-date_joined')[:5]
 
@@ -12,7 +14,8 @@ class ExploreUser(APIView):
         return Response(data=serilizer.data, status=status.HTTP_200_OK)
 
 class FollowUser(APIView):
-    def get(self, request, user_id, format=None):
+
+    def post(self, request, user_id, format=None):
 
         user = request.user
 
@@ -23,10 +26,13 @@ class FollowUser(APIView):
 
         user.following.add(user_to_follow)
         user.save()
+
+        notifications_views.create_notification(user, user_to_follow, 'follow')
         
         return Response(status=status.HTTP_200_OK)
 
 class UnFollowUser(APIView):
+
     def get(self, request, user_id, format=None):
 
         user = request.user
@@ -41,6 +47,7 @@ class UnFollowUser(APIView):
         return Response(status=status.HTTP_200_OK)
 
 class UserProfile(APIView):
+
     def get(self, request, username, format=None):
         try:
             found_user = models.User.objects.get(username=username)
@@ -65,6 +72,7 @@ class UserFollowers(APIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 class UserFollowing(APIView):
+
     def get(self, request, username, format=None):
         try:
             found_user = models.User.objects.get(username=username)
@@ -77,6 +85,7 @@ class UserFollowing(APIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 class Search(APIView):
+
     def get(self, request, format=None):
              
         username = request.query_params.get('username', None)

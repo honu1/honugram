@@ -1,7 +1,8 @@
-from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from . import models, serializers
+from honugram.notifications import views as notification_views
 
 # viewing all image in database.
 # this practic test. service dev is not adjust to it.
@@ -110,6 +111,9 @@ class LikeImage(APIView):
             )
 
             new_like.save()
+
+            notification_views.create_notification(
+            user, found_image.creator, 'like', found_image)
             
             return Response(status=status.HTTP_201_CREATED)
 
@@ -152,13 +156,15 @@ class CommentOnImage(APIView):
         except models.Image.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)  
         
-        print(request.data)
-
         serializer = serializers.CommentSerializer(data=request.data)
 
         if serializer.is_valid() :
-            print('valid serializer')
+
             serializer.save(creator=user, image=found_image)
+
+            notification_views.create_notification(
+                user, found_image.creator, 'comment', found_image, serializer.data['message']
+            )
 
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -202,3 +208,22 @@ class Search(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 search_view = Search.as_view()
+
+class ModerateComment(APIView):
+    def delete(self, request, image_id, comment_id, format=None):
+
+        user = request.user
+
+        try:
+            comment_to_delete = models.Comment.obejctes.get(
+                id=comment_id, image__id=image_id, image__creator=user)
+
+            comment_to_delete.delete()
+
+        except models.Comment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+moderate_comment_view = ModerateComment.as_view()
