@@ -73,7 +73,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'honugram.users.apps.UsersAppConfig',
     # Your stuff: custom apps go here
-    'honugram.images.apps.ImagesConfig'
+    'honugram.images.apps.ImagesConfig', # images app 
+    'honugram.notifications.apps.NotificationsConfig' # notifications app
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
