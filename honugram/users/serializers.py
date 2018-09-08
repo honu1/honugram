@@ -6,6 +6,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     images = images_serializers.CountImageSerializer(many=True)
 
+    """ is not changed value """
+    post_count = serializers.ReadOnlyField()
+    followers_count = serializers.ReadOnlyField()
+    following_count = serializers.ReadOnlyField()
+
     class Meta:
         model = models.User
         fields = (
