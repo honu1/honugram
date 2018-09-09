@@ -69,6 +69,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework', # REST framework
     'taggit', #taggit for the photos
+    'taggit_serializer', # tag serializer
 ]
 LOCAL_APPS = [
     'honugram.users.apps.UsersAppConfig',
