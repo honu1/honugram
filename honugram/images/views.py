@@ -51,7 +51,7 @@ class ListAllLikes(APIView):
 
 list_all_likes_view = ListAllLikes.as_view()
 
-class Feed(APIView):
+class Images(APIView):
     def get(self, request, format=None):
 
         user = request.user
@@ -83,6 +83,21 @@ class Feed(APIView):
 
         return Response(serializer.data)
 
+    def put(self, request, format=None):
+
+        user = request.user 
+
+        serializer = serializers.InputImageSerializer(data=request.data)
+
+        if serializer.is_valid():
+
+            serializer.save(creator=user)
+
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     class Meta():
         ordering = ['-created_at']
 
@@ -90,7 +105,7 @@ class Feed(APIView):
 # def get_key(image):
 #     return image.created_at
 
-feed_view = Feed.as_view()
+images_view = Images.as_view()
 
 class LikeImage(APIView):
     def get(self, request, image_id, format=None):

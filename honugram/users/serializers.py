@@ -4,7 +4,7 @@ from honugram.images import serializers as images_serializers
 
 class UserProfileSerializer(serializers.ModelSerializer):
     
-    images = images_serializers.CountImageSerializer(many=True)
+    images = images_serializers.CountImageSerializer(many=True,read_only=True)
 
     """ is not changed value """
     post_count = serializers.ReadOnlyField()
