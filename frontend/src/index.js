@@ -5,7 +5,8 @@ import store from 'redux/configureStore';
 import 'index.css';
 import App from 'App';
 
-console.log(store.getState());
+// store.dispatch({type : "HONU"})
+// console.log(store.getState());
 
 ReactDOM.render(
     <Provider store={store}>
