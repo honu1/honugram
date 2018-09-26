@@ -37,7 +37,6 @@ if(env === 'development') {
     store = initialState => createStore(reducer, applyMiddleware(...middlewares));
 }
 
-
 //it need to making router.
 export { history };
 
