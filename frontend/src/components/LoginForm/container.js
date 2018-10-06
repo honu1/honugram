@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import LoginForm from "./presenter";
 
 class Container extends Component {
@@ -6,6 +7,11 @@ class Container extends Component {
     username: "",
     password: ""
   };
+
+  static propTypes = {
+    usernameLogin: PropTypes.func.isRequired
+  };
+
   render() {
     const { username, password } = this.state;
     return (
@@ -29,8 +35,13 @@ class Container extends Component {
 
   _handleSubmit = event => {
     console.log("submit");
+    const { username, password } = this.state;
+    const { usernameLogin } = this.props;
     event.preventDefault();
+    usernameLogin(username, password);
   };
+
+  // _handleUsernameLogin(username, password) {}
 }
 
 export default Container;

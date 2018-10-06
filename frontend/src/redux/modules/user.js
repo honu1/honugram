@@ -2,17 +2,35 @@
 
 // action
 
+const SAVE_TOKEN = "SAVE_TOKEN";
+
 // action creator
+
+function saveToken(token) {
+  return {
+    type: SAVE_TOKEN,
+    token
+  };
+}
+
+// api actions
 function usernameLogin(username, password) {
   return function(dispatch) {
-    fetch("/rest-auth/login", {
+    fetch("/rest-auth/login/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username,
         password
       })
-    });
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.token) {
+          dispatch(saveToken(json.token));
+        }
+      })
+      .catch(err => console.log(err));
   };
 }
 
@@ -24,9 +42,8 @@ const initialState = {
 // reducer
 function reducer(state = initialState, action) {
   switch (action.type) {
-    // case value:
-
-    //     break;
+    case SAVE_TOKEN:
+      return applySetToken(state, action);
 
     default:
       return state;
@@ -34,5 +51,23 @@ function reducer(state = initialState, action) {
 }
 // functon
 
+function applySetToken(state, action) {
+  const { token } = action;
+  localStorage.setItem("jwt", token);
+  return {
+    ...state,
+    isLoggedIn: true,
+    token
+  };
+}
+
 // exports
+
+const actionCreators = {
+  usernameLogin
+};
+
+export { actionCreators };
+
+// export reducer by default
 export default reducer;
