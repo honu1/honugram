@@ -1,11 +1,15 @@
-import { connect } from 'react-redux'
-import Container from './container'
+import { connect } from "react-redux";
+import Container from "./container";
 
 const mapToStateProps = (state, ownProps) => {
-  const { user } = state;
+  const {
+    user,
+    router: { location }
+  } = state;
 
   return {
-    isLoggedIn: user.isLoggedIn
+    isLoggedIn: user.isLoggedIn,
+    pathname: location.pathname
   };
 };
 
