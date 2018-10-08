@@ -34,6 +34,29 @@ function usernameLogin(username, password) {
   };
 }
 
+function createAccount(username, password, email, name) {
+  return function(dispatch) {
+    fetch("/rest-auth/registration/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username,
+        password1: password,
+        password2: password,
+        email,
+        name
+      })
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.token) {
+          dispatch(saveToken(json.token));
+        }
+      })
+      .catch(err => console.log(err));
+  };
+}
+
 // initial state
 const initialState = {
   isLoggedIn: localStorage.getItem("jwt") ? true : false
@@ -64,10 +87,11 @@ function applySetToken(state, action) {
 // exports
 
 const actionCreators = {
-  usernameLogin
+  usernameLogin,
+  createAccount
 };
 
-export { actionCreators };
+export { actionCreators, createAccount };
 
 // export reducer by default
 export default reducer;

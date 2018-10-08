@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import SignUpForm from "./presenter";
 
 class Container extends Component {
@@ -8,16 +9,21 @@ class Container extends Component {
     username: "",
     password: ""
   };
+
+  static propTypes = {
+    createAccount: PropTypes.func.isRequired
+  };
+
   render() {
     const { fullname, email, username, password } = this.state;
     return (
       <SignUpForm
-        handleInputChange={this._handleInputChange}
-        handleSubmit={this._handleSubmit}
         fullnameValue={fullname}
         emailValue={email}
         usernameValue={username}
         passwordValue={password}
+        handleInputChange={this._handleInputChange}
+        handleSubmit={this._handleSubmit}
       />
     );
   }
@@ -37,6 +43,11 @@ class Container extends Component {
     console.log("submit");
     console.log(this.state);
     event.preventDefault();
+
+    const { fullname, email, username, password } = this.state;
+    const { createAccount } = this.props;
+
+    createAccount(username, password, email, fullname);
   };
 }
 
