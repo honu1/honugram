@@ -1,9 +1,13 @@
 import React, { Component } from "react";
-import Navigation from "./presenter";
+import Feed from "components/Feed/presenter";
 
 class Container extends Component {
+  state = {
+    loading: true
+  };
+
   render() {
-    return <Navigation />;
+    return <Feed {...this.state} />;
   }
 }
 
