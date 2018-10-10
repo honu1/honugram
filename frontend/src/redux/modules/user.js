@@ -59,7 +59,8 @@ function createAccount(username, password, email, name) {
 
 // initial state
 const initialState = {
-  isLoggedIn: localStorage.getItem("jwt") ? true : false
+  isLoggedIn: localStorage.getItem("jwt") ? true : false,
+  token: localStorage.getItem("jwt")
 };
 
 // reducer
@@ -91,7 +92,7 @@ const actionCreators = {
   createAccount
 };
 
-export { actionCreators, createAccount };
+export { actionCreators };
 
 // export reducer by default
 export default reducer;
