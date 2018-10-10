@@ -8,16 +8,34 @@ class Container extends Component {
   };
 
   static propTypes = {
-    getFeed: PropTypes.func.isRequired
+    getFeed: PropTypes.func.isRequired,
+    feed: PropTypes.array
   };
 
   componentDidMount() {
     const { getFeed } = this.props;
+    if (!this.props.feed) {
+      getFeed();
+    } else {
+      console.log("이미 이미지 있다");
+      this.setState({
+        loading: false
+      });
+    }
     getFeed();
   }
 
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.feed) {
+      this.setState({
+        loading: false
+      });
+    }
+  };
+
   render() {
-    return <Feed {...this.state} />;
+    const { feed } = this.props;
+    return <Feed {...this.state} feed={feed} />;
   }
 }
 

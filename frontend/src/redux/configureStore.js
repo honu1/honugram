@@ -6,7 +6,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 // import Reactotron from 'ReactotronConfig'
 import { i18nState } from "redux-i18n";
 import user from "redux/modules/user";
-import photo from "redux/modules/photos";
+import photos from "redux/modules/photos";
 
 const env = process.env.NODE_ENV;
 
@@ -22,7 +22,7 @@ if (env === "development") {
 
 const reducer = combineReducers({
   user,
-  photo,
+  photos,
   router: routerReducer,
   i18nState
 });
