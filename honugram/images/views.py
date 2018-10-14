@@ -79,7 +79,7 @@ class Images(APIView):
         sorted_image = sorted(image_list, key=lambda image: image.created_at , reverse=True)
         print(sorted_image)
 
-        serializer = serializers.ImageSerializer(sorted_image, many=True)
+        serializer = serializers.ImageSerializer(sorted_image, many=True, context={"request": request})
 
         return Response(serializer.data)
 

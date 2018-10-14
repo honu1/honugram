@@ -4,7 +4,7 @@ import styles from "./styles.scss";
 
 const PhotoComments = props => (
   <div className={styles.comments}>
-    <ui className={styles.list}>
+    <ul className={styles.list}>
       <Comment
         className={styles.comment}
         usermae={props.creator}
@@ -17,20 +17,16 @@ const PhotoComments = props => (
           key={comment.id}
         />
       ))}
-    </ui>
+    </ul>
   </div>
 );
 
-const Comment = props => {
-  console.log("comment 이거 왜 점나오냐");
-  console.log(props);
-  return (
-    <li className={styles.comment}>
-      <span className={styles.username}>{props.username}</span>{" "}
-      <span className={styles.message}>{props.comment}</span>
-    </li>
-  );
-};
+const Comment = props => (
+  <li className={styles.comment}>
+    <span className={styles.username}>{props.username}</span>{" "}
+    <span className={styles.message}>{props.comment}</span>
+  </li>
+);
 
 PhotoComments.propTypes = {
   caption: PropTypes.string.isRequired,
