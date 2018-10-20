@@ -6,6 +6,7 @@ import { actionCreators as userActions } from "redux/modules/user";
 const SET_FEED = "SET_FEED";
 const LIKE_PHOTO = "LIKE_PHOTO";
 const UNLIKE_PHOTO = "UNLIKE_PHOTO";
+const ADD_COMMENT = "ADD_COMMENT";
 
 // action creator
 
@@ -27,6 +28,14 @@ function doUnlikePhoto(photoId) {
   return {
     type: UNLIKE_PHOTO,
     photoId
+  };
+}
+
+function addComment(photoId, comment) {
+  return {
+    type: ADD_COMMENT,
+    photoId,
+    comment
   };
 }
 
@@ -119,9 +128,13 @@ function commentPhoto(photoId, message) {
         if (response.status === 401) {
           dispatch(userActions.logout());
         }
-        // else if (!response.ok) {
-        //   dispatch(doLikePhoto(photoId));
-        // }
+
+        return response.json();
+      })
+      .then(json => {
+        if (json.message) {
+          dispatch(addComment(photoId, json));
+        }
       })
       .catch(err => console.log(err));
   };
@@ -138,6 +151,8 @@ function reducer(state = initialState, action) {
       return applyLikePhoto(state, action);
     case UNLIKE_PHOTO:
       return applyUnlikePhoto(state, action);
+    case ADD_COMMENT:
+      return applyAddComment(state, action);
     default:
       return state;
   }
@@ -176,6 +191,27 @@ function applyUnlikePhoto(state, action) {
   const updatedFeed = feed.map(photo => {
     if (photo.id === photoId) {
       return { ...photo, is_liked: false, like_count: photo.like_count - 1 };
+    }
+
+    return photo;
+  });
+
+  return {
+    ...state,
+    feed: updatedFeed
+  };
+}
+
+function applyAddComment(state, action) {
+  const { photoId, comment } = action;
+  const { feed } = state;
+
+  const updatedFeed = feed.map(photo => {
+    if (photo.id === photoId) {
+      return {
+        ...photo,
+        comments: [...photo.comments, comment]
+      };
     }
 
     return photo;
