@@ -22,7 +22,6 @@ class Container extends Component {
         loading: false
       });
     }
-    getFeed();
   }
 
   componentWillReceiveProps = nextProps => {

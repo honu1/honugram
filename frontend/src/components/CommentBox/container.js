@@ -34,7 +34,6 @@ class Container extends Component {
     const { key } = event;
     if (key === "Enter") {
       event.preventDefault();
-      console.log(comment);
       submitComment(comment);
     }
   };
