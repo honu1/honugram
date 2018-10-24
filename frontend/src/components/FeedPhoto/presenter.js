@@ -40,7 +40,11 @@ const FeedPhoto = (props, context) => {
         <CommentBox photoId={props.id} />
       </div>
       {props.seeingLikes && (
-        <UserList title={context.t("Likes")} closeLikes={props.closeLikes} />
+        <UserList
+          title={context.t("Likes")}
+          photoId={props.id}
+          closeLikes={props.closeLikes}
+        />
       )}
     </div>
   );
