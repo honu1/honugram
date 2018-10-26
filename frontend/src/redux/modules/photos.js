@@ -109,8 +109,6 @@ function unlikePhoto(photoId) {
 
 function commentPhoto(photoId, message) {
   return (dispatch, getState) => {
-    // dispatch(doUnlikePhoto(photoId));
-
     const {
       user: { token }
     } = getState();
