@@ -26,5 +26,11 @@
     .button {
       @include blueButton();
     }
+    .button_test {      
+      border-radius: 3px;
+      background-color: gray;
+      color: white;
+      font-weight: 600;
+    }
   }
 }
