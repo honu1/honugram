@@ -104,6 +104,7 @@ function getLikePhoto(photoId) {
     } = getState();
     fetch(`/images/${photoId}/likes`, {
       headers: {
+        method: "GET",
         Authorization: `JWT ${token}`
       }
     })

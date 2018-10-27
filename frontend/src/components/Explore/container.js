@@ -17,7 +17,6 @@ class Container extends Component {
     if (!this.props.userList) {
       getExplore();
     } else {
-      console.log("이미 이미지 있다");
       this.setState({
         loading: false
       });

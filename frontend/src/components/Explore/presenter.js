@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import Loading from "components/Loading";
-import UserList from "components/UserList";
+import UserRow from "components/UserRow";
 
 const Explore = (props, context) => {
   if (props.loading) {
@@ -14,15 +14,15 @@ const Explore = (props, context) => {
 };
 
 const LoadingFeed = props => (
-  <div className={styles.feed}>
+  <div className={styles.explore}>
     <Loading />
   </div>
 );
 
 const RenderFeed = props => (
-  <div className={styles.feed}>
-    {props.userList.map(photo => (
-      <UserList {...photo} key={photo.id} />
+  <div className={styles.explore}>
+    {props.userList.map(user => (
+      <UserRow big={true} user={user} key={user.id} />
     ))}
   </div>
 );
