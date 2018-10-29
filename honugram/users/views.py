@@ -33,7 +33,7 @@ class FollowUser(APIView):
 
 class UnFollowUser(APIView):
 
-    def get(self, request, user_id, format=None):
+    def post(self, request, user_id, format=None):
 
         user = request.user
 
