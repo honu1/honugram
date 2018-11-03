@@ -9,3 +9,6 @@ Study frontend and backend
 
 ## Install PostgresSQL, pgAdmin4 SUSE Tumbleweed
 * https://en.opensuse.org/SDB:PostgreSQL
+
+## complete project
+* Sat Oct 27
